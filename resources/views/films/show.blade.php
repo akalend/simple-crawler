@@ -64,6 +64,14 @@
             .m-b-md {
                 margin-bottom: 30px;
             }
+
+            .page-item {
+                list-style-type: none;
+
+            }
+
+            .pagination li {display:inline-block;}
+
         </style>
     </head>
     <body>
@@ -81,15 +89,15 @@
                         <div class="content">{{ $film->title }} </div>
                         <div  style="font-size: 10pt">дата выхода рус {{ $film->date_show}}</div> 
                         <div  style="font-size: 10pt">{{ $film->episode_name}}</div>
-                        <a class="links" style="font-size: 10pt" href="http://www.lostfilm.tv/{{ $film->link}}">{{ $film->episode_name}}</a>
+                        <a  style="font-size: 10pt" href="http://www.lostfilm.tv/{{ $film->link}}">{{ $film->episode_name}}</a>
                     @endforeach
                     
                 @else
                    <div class="title m-b-md"> Ни чего пока нет </div>    
                 @endif
-                  
-                
-
+                <div style="list-style-type: none;  display: flex; flex-direction: row; ">  
+                {{ $films->links() }}
+                </div>
             </div>
         </div>
     </body>

@@ -4,21 +4,20 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\DB;
 use \App\Film;
 
 
 class ShowFilmController extends Controller
 {
+    
+
     //
 	public function index(Request $request): View
     {
         
-        $Film = new Film();
-
-        // $films = ;
-
-
-        return view('films.show', ['films' => $Film::all()] );
+        return view('films.show', 
+        	['films' => DB::table('films')->paginate(config('view.paging'))] );
     }
 
 
