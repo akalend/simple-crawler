@@ -34,4 +34,6 @@ CREATE TABLE `films` (
      * @var string
      */
     protected $connection = 'mysql';
+
+
 }

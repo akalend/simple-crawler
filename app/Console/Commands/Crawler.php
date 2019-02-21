@@ -40,11 +40,11 @@ class Crawler extends Command
     public function handle()
     {
 
-        // $link = "http://www.lostfilm.tv/new";
-        // $html = file_get_contents($link);
+         $link = "http://www.lostfilm.tv/new";
+         $html = file_get_contents($link);
 
         
-        $html = file_get_contents('lostfilm.html');
+        // $html = file_get_contents('lostfilm.html');
 
         $pos=0;
 
@@ -54,11 +54,13 @@ class Crawler extends Command
 
             $film = new Film();
             $film->title = Parser::getFilmTitle($row);
-            $film->episode_name = 'Тестовый фильм'; //Parser::getEpisodeName($row);
+            $film->episode_name = Parser::getEpisodeName($row);
             $film->date_show =  Parser::getDateEpisode($row);
             $film->link =  Parser::getLink($row);
-            $film->season = 1;
-            $film->episode_num = 2;
+            $season = Parser::getSeasonNum($row);
+            $film->season = $season['season'];
+            $film->episode_num = $season['episode'];
+            
             $film->save();
         }    
     }

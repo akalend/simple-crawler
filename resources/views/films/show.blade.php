@@ -40,8 +40,16 @@
                 top: 18px;
             }
 
+            .content-title {
+                text-align: left;
+                font-family:  sans-serif;
+                font-size: 14pt;                
+            }
+
             .content {
-                text-align: center;
+                text-align: left;
+                font-family:  arial;
+                font-size: 14pt; bold;                
             }
 
             .title {
@@ -49,13 +57,8 @@
             }
 
             .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 13px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
+                color: #636b6f;                
+                font-size: 10pt;                
             }
 
             .m-b-md {
@@ -65,24 +68,27 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
-
+           
             <div class="content">
-                <div class="title m-b-md">
-                    Laravel ******
-                </div>
+                
+
+                @if (count($films) > 0)
+                    
+                    @foreach ($films as $film)
+                    <hr/>
+
+                        <div  style="font-size: 10pt">сезон {{ $film->season}}  эпизод {{ $film->episode_num}}</div> 
+                        <div class="content">{{ $film->title }} </div>
+                        <div  style="font-size: 10pt">дата выхода рус {{ $film->date_show}}</div> 
+                        <div  style="font-size: 10pt">{{ $film->episode_name}}</div>
+                        <a class="links" style="font-size: 10pt" href="http://www.lostfilm.tv/{{ $film->link}}">{{ $film->episode_name}}</a>
+                    @endforeach
+                    
+                @else
+                   <div class="title m-b-md"> Ни чего пока нет </div>    
+                @endif
+                  
+                
 
             </div>
         </div>

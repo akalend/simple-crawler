@@ -73,6 +73,36 @@ echo "pos1=$pos1  pos0=$pos0\n ";
         return substr($res, strpos( $res, ':') + 2 );
     }    
 
+
+
+    /**
+     * @parm html string - input html.
+     *
+     * @return string Russian Episode title 
+     */
+     public static function getSeasonNum( $row )
+     {
+        $html_div_1 = '<div class="left-part">';
+        $pos1 = strpos( $row, $html_div_1);
+        $pos2 = strpos( $row, "сезон");
+        $pos3 = strpos( $row, " ", $pos2);
+
+        $content = substr($row, $pos1 + strlen($html_div_1), $pos2 - $pos1 - strlen($html_div_1));
+
+        $pos3 = strpos( $row, " ", $pos2);
+        $pos4 = strpos($row,  "серия" , $pos1);
+
+        return [
+           'season'=> $content,  // season
+            'episode' => substr($row, $pos3 +1, $pos4 - $pos3 - 1 ), // seria
+        ];
+
+
+     }
+
+
+
+
     /**
      * @parm html string - input html.
      *
