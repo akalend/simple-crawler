@@ -3,8 +3,11 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 use \App\Library\Parser;
+use \App\Library\PageLoader;
 use \App\Film;
+
 
 class Crawler extends Command
 {
@@ -13,14 +16,14 @@ class Crawler extends Command
      *
      * @var string
      */
-    protected $signature = 'command:parse';
+    protected $signature = 'command:parse {level}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Parse HTML content from lost.tv';
+    protected $description = 'Parse HTML content from lostfilm.tv';
 
     /**
      * Create a new command instance.
@@ -40,28 +43,27 @@ class Crawler extends Command
     public function handle()
     {
 
-         $link = "http://www.lostfilm.tv/new";
-         $html = file_get_contents($link);
+            Cache::set('xxx', '123');
+
+            $x = Cache::get('xxx');
+            
+
+            $this->info($x);
+        return;
+
+        $level = (int) $this->argument('level'); 
+        
+        
+        $i = 1;
+        while ( $level-- > 0) {
+        $url = sprintf("http://www.lostfilm.tv/new/page_%d", $i++);    
+
+            $this->info($url);
+            PageLoader::run($url);
+
+        }
 
         
-        // $html = file_get_contents('lostfilm.html');
 
-        $pos=0;
-
-        while ( 1 ) {    
-            list($row, $pos) = Parser::getRowHtml($html, $pos);
-            if( !$pos) break;
-
-            $film = new Film();
-            $film->title = Parser::getFilmTitle($row);
-            $film->episode_name = Parser::getEpisodeName($row);
-            $film->date_show =  Parser::getDateEpisode($row);
-            $film->link =  Parser::getLink($row);
-            $season = Parser::getSeasonNum($row);
-            $film->season = $season['season'];
-            $film->episode_num = $season['episode'];
-            
-            $film->save();
-        }    
     }
 }

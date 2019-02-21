@@ -17,7 +17,9 @@ class ShowFilmController extends Controller
     {
         
         return view('films.show', 
-        	['films' => DB::table('films')->paginate(config('view.paging'))] );
+        	['films' => DB::table('films')
+        		->orderBy('date_show', 'desc')
+        		->paginate(config('view.paging'))] );
     }
 
 

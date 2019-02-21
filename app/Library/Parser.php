@@ -27,8 +27,6 @@ class Parser
     {
         $pos1 = strpos( $html, '<div class="row">', $pos0+1);
 
-echo "pos1=$pos1  pos0=$pos0\n ";
-
         $pos2 = strpos( $html, '<div class="hor-breaker dashed">', $pos1);
         $tag =  substr( $html, $pos1 , $pos2-$pos1);
         return [ substr( $tag, strpos($tag,'>') +1 ), $pos1];
@@ -70,7 +68,9 @@ echo "pos1=$pos1  pos0=$pos0\n ";
         $pos2 = strpos( $html, '</div>', $pos1);
         $tag =  substr( $html, $pos1 , $pos2-$pos1);
         $res = substr( $tag, strpos($tag,'>') + 1 );
-        return substr($res, strpos( $res, ':') + 2 );
+        // return substr($res, strpos( $res, ':') + 2 );
+        $d1 = strtotime(substr($res, strpos( $res, ':') + 2 )); // переводит из строки в дату
+        return date("Y-m-d", $d1); 
     }    
 
 
