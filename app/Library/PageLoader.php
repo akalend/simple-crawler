@@ -10,6 +10,9 @@ class PageLoader
 {
 
 
+	private static $isFirst = false;
+
+
     /**
      * Crawle url
      *
@@ -19,7 +22,7 @@ class PageLoader
     {
         $html = file_get_contents($url);
 
-        $pos=0;
+        $pos = 0;
 
         while ( 1 ) {    
             list($row, $pos) = Parser::getRowHtml($html, $pos);
@@ -31,9 +34,14 @@ class PageLoader
             $film->episode_num = $season['episode'];
             $film->title = Parser::getFilmTitle($row);
      
-            $key = film->title . '_'. $season['season'] . '_'. $season['episode'];
+            $key = film->title . '_'. $season['season'] . '/'. $season['episode'];
 
             if ($last_update == $key) return -1;
+			if ($last_update == ''  ||  $isFirst ) {
+				Cache::set('last_film', $key);
+				static::isFirst = false;
+			} 
+
 
             $film->date_show =  Parser::getDateEpisode($row);
 
@@ -49,5 +57,15 @@ class PageLoader
         }    
        
         return 0;
+    }
+
+     /**
+     * Init Page Loader
+     *
+     * @return void
+     */
+    static public function init() 
+    {
+    	static::isFirst = true;
     }
 }

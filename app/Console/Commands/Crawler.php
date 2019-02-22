@@ -47,6 +47,7 @@ class Crawler extends Command
         $last_load = Cache::get('last_film', '');
         $level = (int) $this->argument('level'); 
         
+        PageLoader::init();
         
         $i = 1;
         while ( $level-- > 0) {
