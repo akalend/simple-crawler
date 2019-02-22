@@ -48,9 +48,9 @@
 
 	./artisan 	migrate
 
-6. настраиваем крон
+6. настраиваем крон от пользователя (crontab -e)
 
 	
-	[/usr/www/crawler/]artisan command:parse [глубина просмотра]
+	1 0  *   *   *  [/usr/www/crawler/]artisan command:parse [глубина просмотра]
 
 7. пользуемся
