@@ -33,5 +33,5 @@ return [
         realpath(storage_path('framework/views'))
     ),
 
-    'paging' => 7,
+    'paging' => getenv('VIEW_PAGING', 10) ,
 ];

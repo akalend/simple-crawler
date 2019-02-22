@@ -16,6 +16,10 @@ class ShowFilmController extends Controller
 	public function index(Request $request): View
     {
         
+    	echo '***********', PHP_EOL, PHP_EOL, PHP_EOL, PHP_EOL, PHP_EOL, PHP_EOL;
+    	echo getenv('VIEW_PAGING') , PHP_EOL; 
+    	echo config('view.paging'); 
+
         return view('films.show', 
         	['films' => DB::table('films')
         		->orderBy('date_show', 'desc')
