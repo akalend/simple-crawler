@@ -26,20 +26,28 @@ class PageLoader
             if( !$pos) break;
 
             $film = new Film();
+            $season = Parser::getSeasonNum($row);
+            $film->season = $season['season'];
+            $film->episode_num = $season['episode'];
+            $film->title = Parser::getFilmTitle($row);
+     
+            $key = film->title . '_'. $season['season'] . '_'. $season['episode'];
+
+            if ($last_update == $key) return -1;
+
             $film->date_show =  Parser::getDateEpisode($row);
 
             // if ($film->date_show  < $last_update  )///
 
-            $film->title = Parser::getFilmTitle($row);
             $film->episode_name = Parser::getEpisodeName($row);
             
             $film->link =  Parser::getLink($row);
-            $season = Parser::getSeasonNum($row);
-            $film->season = $season['season'];
-            $film->episode_num = $season['episode'];
             
             $film->save();
+
+            unset($film);
         }    
        
+        return 0;
     }
 }

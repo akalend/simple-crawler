@@ -44,9 +44,7 @@ class Crawler extends Command
     {
 
 
-        $last_load = Cache::get('last_update');
-
-
+        $last_load = Cache::get('last_film', '');
         $level = (int) $this->argument('level'); 
         
         
@@ -55,7 +53,7 @@ class Crawler extends Command
         $url = sprintf("http://www.lostfilm.tv/new/page_%d", $i++);    
 
             $this->info($url);
-            PageLoader::run($url, $last_update );
+            if ( PageLoader::run($url, $last_load ) == -1) break;
 
         }
 
