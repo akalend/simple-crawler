@@ -43,13 +43,9 @@ class Crawler extends Command
     public function handle()
     {
 
-            Cache::set('xxx', '123');
 
-            $x = Cache::get('xxx');
-            
+        $last_load = Cache::get('last_update');
 
-            $this->info($x);
-        return;
 
         $level = (int) $this->argument('level'); 
         
@@ -59,7 +55,7 @@ class Crawler extends Command
         $url = sprintf("http://www.lostfilm.tv/new/page_%d", $i++);    
 
             $this->info($url);
-            PageLoader::run($url);
+            PageLoader::run($url, $last_update );
 
         }
 

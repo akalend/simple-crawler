@@ -10,14 +10,12 @@ class PageLoader
 {
 
 
-
-
     /**
      * Crawle url
      *
      * @return void
      */
-    static public function run($url)
+    static public function run($url, $last_update)
     {
         $html = file_get_contents($url);
 
@@ -28,9 +26,13 @@ class PageLoader
             if( !$pos) break;
 
             $film = new Film();
+            $film->date_show =  Parser::getDateEpisode($row);
+
+            // if ($film->date_show  < $last_update  )///
+
             $film->title = Parser::getFilmTitle($row);
             $film->episode_name = Parser::getEpisodeName($row);
-            $film->date_show =  Parser::getDateEpisode($row);
+            
             $film->link =  Parser::getLink($row);
             $season = Parser::getSeasonNum($row);
             $film->season = $season['season'];
