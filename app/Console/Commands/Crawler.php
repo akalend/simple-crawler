@@ -44,6 +44,9 @@ class Crawler extends Command
     {
 
 
+
+
+
         $last_load = Cache::get('last_film', '');
         $level = (int) $this->argument('level'); 
         

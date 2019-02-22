@@ -2,6 +2,7 @@
 
 namespace App\Library;
 
+use Illuminate\Support\Facades\Cache;
 use \App\Library\Parser;
 use \App\Film;
 
@@ -34,12 +35,12 @@ class PageLoader
             $film->episode_num = $season['episode'];
             $film->title = Parser::getFilmTitle($row);
      
-            $key = film->title . '_'. $season['season'] . '/'. $season['episode'];
+            $key = $film->title . '_'. $season['season'] . '/'. $season['episode'];
 
             if ($last_update == $key) return -1;
-			if ($last_update == ''  ||  $isFirst ) {
-				Cache::set('last_film', $key);
-				static::isFirst = false;
+			if ($last_update == ''  ||  static::$isFirst ) {
+				Cache::forever('last_film', $key);
+				static::$isFirst = false;
 			} 
 
 
@@ -52,6 +53,8 @@ class PageLoader
             $film->link =  Parser::getLink($row);
             
             $film->save();
+            print( sprintf("download: %s [%s/%s]\n",  
+                $film->title, $season['season'], $season['episode'] ));
 
             unset($film);
         }    
@@ -66,6 +69,6 @@ class PageLoader
      */
     static public function init() 
     {
-    	static::isFirst = true;
+    	static::$isFirst = true;
     }
 }
